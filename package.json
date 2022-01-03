@@ -1,0 +1,8 @@
+{
+  "name": "CRUDNodeJS",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/phillipesimon/CRUDNodeJS.git",
+  "author": "phillipesimon <phillipe.simon@gmail.com>",
+  "license": "MIT"
+}
