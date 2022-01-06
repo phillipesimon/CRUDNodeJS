@@ -7,7 +7,7 @@ export class CreateVideos1641240018228 implements MigrationInterface {
         name: 'videos',
         columns: [
           {
-            name: 'videos',
+            name: 'id',
             type: 'uuid',
             isPrimary: true,
           },
