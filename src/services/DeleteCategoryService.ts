@@ -1,4 +1,5 @@
 import { getCustomRepository } from 'typeorm';
+import { AppError } from '../Error/AppError';
 import { CategoriesRepositories } from '../repositories/CategoriesRepositories';
 
 export class DeleteCategoryService {
@@ -6,7 +7,7 @@ export class DeleteCategoryService {
     const categoriesRepositories = getCustomRepository(CategoriesRepositories);
 
     if (!(await categoriesRepositories.findOne(id))) {
-      return new Error('Category does not exists!');
+      throw new AppError('Category does not exists!', 400);
     }
 
     await categoriesRepositories.delete(id);

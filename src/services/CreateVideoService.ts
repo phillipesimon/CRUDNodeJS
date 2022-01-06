@@ -1,5 +1,6 @@
 import { getCustomRepository } from 'typeorm';
 import { Videos } from '../entities/Video';
+import { AppError } from '../Error/AppError';
 import { CategoriesRepositories } from '../repositories/CategoriesRepositories';
 import { VideosRepositories } from '../repositories/VideosRepositories';
 
@@ -20,11 +21,11 @@ export class CreateVideoService {
     const videosRepositories = getCustomRepository(VideosRepositories);
 
     if (!(await categoriesRepositories.findOne(category_id))) {
-      return new Error('Category does not exists!');
+      throw new AppError('Category does not exists', 400);
     }
 
     if (await videosRepositories.findOne({ name })) {
-      return new Error('Video already exists!');
+      throw new AppError('Video already exists', 400);
     }
 
     const video = videosRepositories.create({

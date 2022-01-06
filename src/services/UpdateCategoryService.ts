@@ -1,4 +1,5 @@
 import { getCustomRepository } from 'typeorm';
+import { AppError } from '../Error/AppError';
 import { CategoriesRepositories } from '../repositories/CategoriesRepositories';
 
 type CategoryUpdateRequest = {
@@ -14,7 +15,7 @@ export class UpdateCategoryService {
     const category = await categoriesRepositories.findOne(id);
 
     if (!category) {
-      return new Error('Category does not exists!');
+      throw new AppError('Category does not exists!', 400);
     }
 
     category.name = name ? name : category.name;

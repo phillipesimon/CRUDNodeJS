@@ -1,4 +1,5 @@
 import { getCustomRepository } from 'typeorm';
+import { AppError } from '../Error/AppError';
 import { VideosRepositories } from '../repositories/VideosRepositories';
 
 export class DeleteVideoService {
@@ -6,7 +7,7 @@ export class DeleteVideoService {
     const videosRepositories = getCustomRepository(VideosRepositories);
 
     if (!(await videosRepositories.findOne(id))) {
-      return new Error('Video does not exists!');
+      throw new AppError('Video does not exists!', 400);
     }
 
     await videosRepositories.delete(id);
