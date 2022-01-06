@@ -1,6 +1,7 @@
-import { getRepository } from 'typeorm';
-import { Category } from '../entities/Category';
+import { getCustomRepository } from 'typeorm';
 import { Videos } from '../entities/Video';
+import { CategoriesRepositories } from '../repositories/CategoriesRepositories';
+import { VideosRepositories } from '../repositories/VideosRepositories';
 
 type VideoRequest = {
   name: string;
@@ -15,16 +16,21 @@ export class CreateVideoService {
     duration,
     category_id,
   }: VideoRequest): Promise<Error | Videos> {
-    const repo = getRepository(Videos);
-    const repoCategory = getRepository(Category);
+    const categoriesRepositories = getCustomRepository(CategoriesRepositories);
+    const videosRepositories = getCustomRepository(VideosRepositories);
 
-    if (!(await repoCategory.findOne(category_id))) {
+    if (!(await categoriesRepositories.findOne(category_id))) {
       return new Error('Category does not exists!');
     }
 
-    const video = repo.create({ name, description, duration, category_id });
+    const video = videosRepositories.create({
+      name,
+      description,
+      duration,
+      category_id,
+    });
 
-    await repo.save(video);
+    await videosRepositories.save(video);
 
     return video;
   }

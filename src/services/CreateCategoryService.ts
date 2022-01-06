@@ -1,5 +1,6 @@
-import { getRepository } from 'typeorm';
+import { getCustomRepository } from 'typeorm';
 import { Category } from '../entities/Category';
+import { CategoriesRepositories } from '../repositories/CategoriesRepositories';
 
 type CategoryRequest = {
   name: string;
@@ -11,18 +12,18 @@ export class CreateCategoryService {
     name,
     description,
   }: CategoryRequest): Promise<Category | Error> {
-    const repo = getRepository(Category);
+    const categoriesRepositories = getCustomRepository(CategoriesRepositories);
 
-    if (await repo.findOne({ name })) {
+    if (await categoriesRepositories.findOne({ name })) {
       return new Error('Category already exists');
     }
 
-    const category = repo.create({
+    const category = categoriesRepositories.create({
       name,
       description,
     });
 
-    await repo.save(category);
+    await categoriesRepositories.save(category);
 
     return category;
   }
